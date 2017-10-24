@@ -12,6 +12,8 @@
 
 集成了创建UI的lua脚本的工具
 
+lua脚本新增DES加密
+
 合并两个项目，使用FairyGUI可以直接接入LuaFramework框架，在Unity中Scripting Define Symbols中使用如下预编译
 
 1.ASYNC_MODE
@@ -22,6 +24,8 @@
 
   这个是现在项目新增字段，用于开启FairyGUI的Lua功能，如果不开启，则默认使用LuaFramework原来的UGUI的Lua模块，FairyGUI的Lua模块提供使用一个UI一个AB包的方式接入，也提供一个UI两个AB包的方式接入，打包规则参照[FairyGUI官网](http://www.fairygui.com/guide/unity/index.html)
 
+3.DES
+ 这个字段将会开启DES加密模式，这时候需要将AppConst中的LuaByteMode打开，并且设置你自己的LuaDESKey，Key值将自动二次加密
 
 
 ## Tips：
