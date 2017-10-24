@@ -1,12 +1,12 @@
 # LuaFramework-ToLua-FairyGUI
 
-引用项目
+#引用项目
 
 [LuaFramework_UGUI](https://github.com/jarjin/LuaFramework_UGUI)
 
 [FairyGUI 5.0版本](https://github.com/fairygui/FairyGUI-unity)
 
-功能：
+#功能：
 
 集成了DOTween插件
 
@@ -24,7 +24,7 @@
 
 
 
-Tips：
+#Tips：
 
 1.如果使用FairyGUI的Lua模块，则Lua框架入口为FairyGUIGame.lua脚本，如果使用UGUI的Lua模块入口为Game.lua脚本
 
