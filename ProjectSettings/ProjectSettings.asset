@@ -396,7 +396,7 @@ PlayerSettings:
   webGLUseWasm: 0
   webGLCompressionFormat: 1
   scriptingDefineSymbols:
-    1: '!ASYNC_MODE;FairyGUI'
+    1: '!ASYNC_MODE;FairyGUI;DES'
     4: ASYNC_MODE
     7: ASYNC_MODE
   platformArchitecture:

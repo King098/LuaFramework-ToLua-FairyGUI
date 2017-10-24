@@ -3,15 +3,19 @@ using System.Collections;
 using System.IO;
 using LuaInterface;
 
-namespace LuaFramework {
+namespace LuaFramework
+{
     /// <summary>
     /// 集成自LuaFileUtils，重写里面的ReadFile，
     /// </summary>
-    public class LuaLoader : LuaFileUtils {
+    public class LuaLoader : LuaFileUtils
+    {
         private ResourceManager m_resMgr;
 
-        ResourceManager resMgr {
-            get { 
+        ResourceManager resMgr
+        {
+            get
+            {
                 if (m_resMgr == null)
                     m_resMgr = AppFacade.Instance.GetManager<ResourceManager>(ManagerName.Resource);
                 return m_resMgr;
@@ -19,7 +23,8 @@ namespace LuaFramework {
         }
 
         // Use this for initialization
-        public LuaLoader() {
+        public LuaLoader()
+        {
             instance = this;
             beZip = AppConst.LuaBundleMode;
         }
@@ -28,9 +33,11 @@ namespace LuaFramework {
         /// 添加打入Lua代码的AssetBundle
         /// </summary>
         /// <param name="bundle"></param>
-        public void AddBundle(string bundleName) {
+        public void AddBundle(string bundleName)
+        {
             string url = Util.DataPath + bundleName.ToLower();
-            if (File.Exists(url)) {
+            if (File.Exists(url))
+            {
                 var bytes = File.ReadAllBytes(url);
                 AssetBundle bundle = AssetBundle.LoadFromMemory(bytes);
                 if (bundle != null)
@@ -41,14 +48,29 @@ namespace LuaFramework {
             }
         }
 
+#if DES
+        public string strKey = "";
+#endif
         /// <summary>
         /// 当LuaVM加载Lua文件的时候，这里就会被调用，
         /// 用户可以自定义加载行为，只要返回byte[]即可。
         /// </summary>
         /// <param name="fileName"></param>
         /// <returns></returns>
-        public override byte[] ReadFile(string fileName) {
-            return base.ReadFile(fileName);     
+        public override byte[] ReadFile(string fileName)
+        {
+            byte[] outContent = base.ReadFile(fileName);
+#if DES
+            if (LuaFramework.AppConst.LuaByteMode)
+            {
+                if (strKey == "")
+                {
+                    strKey = LuaFramework.Util.CreateMD5Str(LuaFramework.AppConst.LuaDESKey).Substring(0, 8);
+                }
+                return LuaFramework.Util.DESDecrypt(outContent, strKey);
+            }
+#endif
+            return outContent;
         }
     }
 }
