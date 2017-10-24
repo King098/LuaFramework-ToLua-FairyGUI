@@ -1,0 +1,101 @@
+#SCRIPTNAME# = {};
+local this = #SCRIPTNAME#;
+
+function #SCRIPTNAME#.Awake(com)
+	this.component = com;
+	--设置UI层级 Normal--Fixed--PopUp--Toppest
+	this.component.fairyUIType = FairyUIType.Normal;
+	--设置UI模式 DoNothing--HideOtherOnly--HideOtherAndNeedBack
+	this.component.fairyUIMode = FairyUIMode.DoNothing;
+	--设置UI是否需要对象池(对象池适用于需要同时出现多个的UI)
+	this.component.needPool = false;
+	
+	logWarn("FairyGUI Lua => #SCRIPTNAME# Awake");
+end
+
+function #SCRIPTNAME#.GetInitComponent(com)
+	--在此进行UI设置和获取组建
+	--this.PlayerIco = com:GetChild("PlayerInfo");
+	--移除事件绑定
+	this.RemoveAllEvent();
+	--在此进行事件注册和初始化界面
+	--this.PlayerIco.onClick:Add(this.OnClick);
+	
+	logWarn("FairyGUI Lua => #SCRIPTNAME# Register Event");
+end
+
+function #SCRIPTNAME#.RemoveAllEvent()
+	--移除事件绑定
+	--this.PlayerIco.onClick:Remove(this.OnClick);
+end
+
+function #SCRIPTNAME#.Start()
+	--获取并初始化组件
+	if not this.component.needPool then
+		this.GetInitComponent(this.component.inst);
+	end
+	logWarn("FairyGUI Lua => #SCRIPTNAME# Start");
+	--显示界面
+	this.Show();
+end
+
+function #SCRIPTNAME#.Show()
+	--显示一个UI
+	if this.component.needPool then
+		--使用对象池
+		local com = this.component.pool:GetObject(this.component.fairyURL);
+		--如果使用对象池，则在获取的时候取消一次事件，并重新绑定事件
+		this.GetInitComponent(com);
+		--入栈
+		this.component.stack:Push(com);
+		com.visible = true;
+	else
+		--不使用对象池
+		this.component.inst.visible = true;
+	end
+	logWarn("FairyGUI Lua => #SCRIPTNAME# Show");
+end
+
+function #SCRIPTNAME#.Hide(com)
+	--关闭一个UI
+	if this.component.needPool then
+		this.component.pool:ReturnObject(com);
+		--取消所有事件绑定
+		this.RemoveAllEvent();
+		--出栈
+        if this.component.stack:Peek() == com then
+			this.component.stack:Pop();
+		end
+		com.visible = false;
+	else
+		--不使用对象池
+		this.component.inst.visible = false;
+	end
+	logWarn("FairyGUI Lua => #SCRIPTNAME# Hide" .. com.name);
+end
+
+function #SCRIPTNAME#.HideAll()
+	--关闭所有UI
+	if this.component.needPool then
+		for i = this.component.stack.Count - 1, 0, - 1 do
+			this.component:Hide();
+		end
+		this.component.stack:Clear();
+	else
+		this.component.stack:Hide();
+	end
+	logWarn("FairyGUI Lua => #SCRIPTNAME# HideAll");
+end
+
+function #SCRIPTNAME#.Destroy()
+	logWarn("FairyGUI Lua => #SCRIPTNAME# Destroy");
+end
+
+--设置各种事件
+function #SCRIPTNAME#.OnClick(context)
+	local obj = context.sender;
+	if obj.name == "PlayerInfo" then
+		log('you click '..obj.name);
+        uiMgr:HideCurrPage();
+	end
+end 

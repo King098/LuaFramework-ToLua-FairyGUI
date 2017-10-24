@@ -1,0 +1,54 @@
+#SCRIPTNAME# = {};
+local this = #SCRIPTNAME#;
+
+local gameObject;
+local transform;
+
+--构建函数--
+function #SCRIPTNAME#.New()
+	logWarn("#SCRIPTNAME#.New--->>");
+	return #SCRIPTNAME#;
+end
+
+function #SCRIPTNAME#.Awake(xpage)
+	--这里设置当前UI的所在层级Normal<PopUp<Fixed<Toppest
+	xpage.m_pageType = EPageType.PopUp;
+	--这里设置当前UI打开模式DoNothing--HideOtherOnly--HideOtherAndNeedBack
+    xpage.m_pageMode = EPageMode.HideOtherAndNeedBack;
+    log('#SCRIPTNAME# Awake');
+end
+
+--第一次打开将会调用这个方法
+function #SCRIPTNAME#.Start(obj)
+	gameObject = obj;
+	transform = obj.transform;
+
+	--这里写窗口第一次打开初始化的逻辑
+
+	--这里选择性调用Rest()
+	--this.Rest();
+	logWarn('#SCRIPTNAME# Start--->>>');
+end
+
+function #SCRIPTNAME#.Rest()
+    logWarn('#SCRIPTNAME# Rest--->>>');
+    --在这里写每次打开刷新界面的逻辑
+
+    --这里是打开窗体的动画播放
+end
+
+function #SCRIPTNAME#.Hide()
+    logWarn('#SCRIPTNAME# Hide--->>>');
+
+    --这里是关闭窗体的动画播放
+end
+
+function #SCRIPTNAME#.Destroy()
+    logWarn('#SCRIPTNAME# Destroy--->>>');
+end
+
+function #SCRIPTNAME#.OnClick(obj)
+	if obj == nil then
+		return;
+	end
+end

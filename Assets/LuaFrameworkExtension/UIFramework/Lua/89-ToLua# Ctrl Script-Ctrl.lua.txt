@@ -1,0 +1,43 @@
+#SCRIPTNAME# = {};
+local this = #SCRIPTNAME#;
+
+local gameObject;
+local transform;
+
+--构建函数--
+function #SCRIPTNAME#.New()
+	logWarn("#SCRIPTNAME#.New--->>");
+	return #SCRIPTNAME#;
+end
+
+function #SCRIPTNAME#.Awake()
+	logWarn("#SCRIPTNAME#.Awake--->>");
+	panelMgr:CreatePanel('#SCRIPTNAMEPANEL#', #SCRIPTNAME#.OnCreate);
+end
+
+--启动事件--
+function #SCRIPTNAME#.OnCreate(obj)
+	gameObject = obj;
+	transform = obj.transform;
+	#SCRIPTNAME#.gameObject = obj;
+	#SCRIPTNAME#.transform = obj.transform;
+	this.ClosePanel();
+	if StartUIName == "#SCRIPTNAME#" then
+        this.OpenPanel();
+    end
+end
+
+--单击事件--
+function #SCRIPTNAME#.OnClick(go)
+	
+end
+
+--打开panel
+function #SCRIPTNAME#.OpenPanel()
+	#SCRIPTPANEL#.Open();
+end
+
+--关闭panel
+function #SCRIPTNAME#.ClosePanel()
+	#SCRIPTPANEL#.Close();
+end

@@ -1,0 +1,31 @@
+#SCRIPTNAME# = {};
+local this = #SCRIPTNAME#;
+
+local gameObject;
+local transform;
+
+--由LuaBehaviour自动调用
+function #SCRIPTNAME#.Awake(obj)
+	gameObject = obj;
+	transform = obj.transform;
+end
+
+--由LuaBehaviour自动调用
+function #SCRIPTNAME#.Start()
+
+end
+
+--打开这个panel的时候调用
+function #SCRIPTNAME#.Open()
+	if gameObject ~= nil then
+		gameObject:SetActive(true);
+		--在此初始化这个Panel
+	end
+end
+
+--关闭这个panel的时候调用
+function #SCRIPTNAME#.Close()
+	if gameObject ~= nil then
+		gameObject:SetActive(false);
+	end
+end
