@@ -38,3 +38,5 @@ lua脚本新增DES加密
 3.如果开启了FairyGUI，AB包可放置在Builds->FairyGUI下（使用一个UI一个AB包则将资源放在此目录之下根据UI命名文件夹创建并放入，使用一个UI两个AB包则分别放在DES和RES文件夹）
 
 4.此项目修改了LuaFramework的LuaLoader文件，现在可在Lua动态创建新的文件夹也不会找不到，同时可更新
+
+5.创建新的UI的时候，直接使用LuaFramework菜单下的FairyUIAutoRegister（FairyGUI）或者AutoRegister（UGUI）可以快速创建和修改lua配置
